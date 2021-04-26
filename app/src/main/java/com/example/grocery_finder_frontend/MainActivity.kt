@@ -34,8 +34,9 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        when (item.itemId){
-            R.id.img_logo -> Toast.makeText(this, "Show MapActivity", Toast.LENGTH_SHORT).show()
+        val id: Int = item.getItemId()
+        when (id){
+            R.id.map -> Toast.makeText(this, "Show MapActivity", Toast.LENGTH_LONG).show()
         }
 
         return super.onOptionsItemSelected(item)
