@@ -80,6 +80,10 @@
             android:onClick="onClickOpenWebsite"
             android:autoLink="web"/>
     </GridLayout>
+    <TextView
+        android:id="@+id/tvCoordinates"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
     <RelativeLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
