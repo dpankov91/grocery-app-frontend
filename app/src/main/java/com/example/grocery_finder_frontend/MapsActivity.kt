@@ -38,9 +38,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     }
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
-        val icon = R.drawable.ic_location
-
-        marker = mMap.addMarker(MarkerOptions().position(mylocation).title("Me"))
+        marker = mMap.addMarker(MarkerOptions().position(mylocation).title("Me").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)))
 
     }
     private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
