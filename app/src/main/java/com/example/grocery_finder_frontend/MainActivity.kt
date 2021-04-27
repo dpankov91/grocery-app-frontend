@@ -4,6 +4,7 @@ package com.example.grocery_finder_frontend
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.widget.AdapterView
@@ -25,24 +26,24 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onListItemClick(pos: Int) {
-        Toast.makeText(this, "You have clicked this one at position $pos", Toast.LENGTH_LONG).show()
+        Log.d("abc", "clicked")
+        val intent = Intent(this, DetailActivity::class.java)
+        startActivity(intent)
     }
 
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
         menuInflater.inflate(R.menu.menu1, menu)
-
         return true
     }
 
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         val id: Int = item.getItemId()
         when (id){
-            R.id.map -> Toast.makeText(this, "Show MapActivity", Toast.LENGTH_LONG).show()
+            R.id.map -> {
+                val intent = Intent(this, MapsActivity::class.java)
+                startActivity(intent)}
         }
-
         return super.onOptionsItemSelected(item)
-
-
-}
+    }
 }

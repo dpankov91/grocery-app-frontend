@@ -11,6 +11,8 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.text.method.LinkMovementMethod
 import android.util.Log
+import android.view.Menu
+import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
@@ -25,6 +27,21 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+    }
+
+    override fun onCreateOptionsMenu(menu: Menu?): Boolean{
+        menuInflater.inflate(R.menu.menu1, menu)
+        return true
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        val id: Int = item.getItemId()
+        when (id){
+            R.id.map -> {
+                val intent = Intent(this, MapsActivity::class.java)
+                startActivity(intent)}
+        }
+        return super.onOptionsItemSelected(item)
     }
 
     fun onClickGoBack(view: View) {
@@ -59,10 +76,10 @@ class DetailActivity : AppCompatActivity() {
             lat = location.latitude
             long = location.longitude
             Log.d(LOG, lat.toString() + " " + long.toString())
-            /* val intent = Intent(this, DetailActivity::class.java)
+            val intent = Intent(this, MapsActivity::class.java)
             intent.putExtra("lat",lat)
             intent.putExtra("long", long)
-            startActivity(intent) */
+            startActivity(intent)
         } else{
             Toast.makeText(this, "The Location is unfortunately null", Toast.LENGTH_LONG).show()
         }
