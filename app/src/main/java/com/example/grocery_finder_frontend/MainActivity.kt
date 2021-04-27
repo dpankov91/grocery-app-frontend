@@ -1,5 +1,7 @@
 package com.example.grocery_finder_frontend
 
+
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
@@ -40,7 +42,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         return super.onOptionsItemSelected(item)
-    }
 
 
+}
 }
