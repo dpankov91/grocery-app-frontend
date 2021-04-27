@@ -1,4 +1,4 @@
 <resources>
-    <string name="app_name">grocery-finder-frontend</string>
+    <string name="app_name">Grocery Finder</string>
     <string name="title_activity_maps">Map</string>
 </resources>
