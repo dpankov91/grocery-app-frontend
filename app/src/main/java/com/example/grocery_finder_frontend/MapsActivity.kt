@@ -2,6 +2,7 @@ package com.example.grocery_finder_frontend
 
 import android.Manifest
 import android.content.Context
+import android.content.Intent
 import android.content.pm.PackageManager
 import android.graphics.Bitmap
 import android.graphics.drawable.BitmapDrawable
@@ -114,17 +115,19 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onStop() {
         stopListening()
+        Log.d("TAG","Stop listening")
         super.onStop()
     }
 
-    /**
-     * Manipulates the map once available.
-     * This callback is triggered when the map is ready to be used.
-     * This is where we can add markers or lines, add listeners or move the camera. In this case,
-     * we just add a marker near Sydney, Australia.
-     * If Google Play services is not installed on the device, the user will be prompted to install
-     * it inside the SupportMapFragment. This method will only be trisggered once the user has
-     * installed Google Play services and returned to the app.
-     */
+    fun onClickBack(view: View) {
+        stopListening()
+        finish()
+    }
+    fun onClickHome(view: View) {
+        stopListening()
+        val intent = Intent(this, MainActivity::class.java)
+        startActivity(intent)
+    }
+
 
 }
