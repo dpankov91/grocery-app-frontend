@@ -11,7 +11,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/black"
-        android:dividerHeight="4dp"
+        android:dividerHeight="3dp"
         android:background="@color/yellow"
         />
 
