@@ -33,14 +33,6 @@ class DetailActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
-
-        val repository = Repository()
-        val viewModelFactory = MainViewModelFactory(repository)
-        var viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-        viewModel.getAllShops()
-        viewModel.myResponse.observe(this, Observer { response ->
-            Log.d("RSP", response.toString())
-        })
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{

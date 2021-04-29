@@ -1,14 +1,17 @@
 package com.example.grocery_finder_frontend.api
 
-import com.example.grocery_finder_frontend.model.Post
+import com.example.grocery_finder_frontend.model.Book
 import com.example.grocery_finder_frontend.model.Shop
 import retrofit2.http.GET
 
 interface Api {
     
-    @GET("Store")
+    @GET("store")
     suspend fun getAllShops(): List<Shop>
 
-    @GET("posts/1")
-    suspend fun getPost(): Post
+    @GET("store/1")
+    suspend fun getShopById(): Shop
+
+    @GET("author")
+    suspend fun getBook(): List<Book>
 }
