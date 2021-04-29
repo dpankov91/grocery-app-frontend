@@ -19,35 +19,31 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
-    private var shops: List <Shop> = emptyList()
-    var isFinished = false
-
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        getAllShopsFromApi()
-        Log.d("RSP", "list state" + " " + shops.toString()
-        )
-        val asStrings = shops.map { p -> "${p.id}, ${p.name}" }
+        Log.d("RSP", "run the main activity")
 
-        val adapter: ListAdapter = ArrayAdapter(
-                this, android.R.layout.simple_list_item_1, asStrings.toTypedArray()
-        )
-        shopList.adapter = adapter
-        shopList.onItemClickListener = AdapterView.OnItemClickListener{_, _, pos, _ -> onListItemClick(pos)}
+        getAllShopsFromApi(Observer{ response -> Log.d("RSP", "list state" + " " + response.toString())
+
+            val shops = response as List<Shop>
+
+                val asStrings = shops.map { p -> "${p.id}, ${p.name}" }
+
+                val adapter: ListAdapter = ArrayAdapter(
+                        this, android.R.layout.simple_list_item_1, asStrings.toTypedArray()
+                )
+                shopList.adapter = adapter
+            shopList.onItemClickListener = AdapterView.OnItemClickListener{_, _, pos, _ -> onListItemClick(pos)}})
+
     }
 
-    private fun getAllShopsFromApi(){
+    private fun getAllShopsFromApi(x: Observer<List<Shop>>){
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         var viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.getAllShops()
-        viewModel.allShopsResponse.observe(this, Observer { response ->
-            Log.d("RSP", response.toString())
-            shops = response
-            isFinished = true
-            Log.d("RSP", "shops list" + " " + shops.toString())
-        })
+        viewModel.allShopsResponse.observe(this, x)
     }
 
     private fun onListItemClick(pos: Int) {
