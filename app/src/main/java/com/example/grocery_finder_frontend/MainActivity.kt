@@ -24,14 +24,14 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         Log.d("RSP", "run the main activity")
 
-        getAllShopsFromApi(Observer{ response -> Log.d("RSP", "list state" + " " + response.toString())
-
+        getAllShopsFromApi(Observer{ response ->
+            Log.d("RSP", "list state" + " " + response.toString())
             val shops = response as List<Shop>
 
-                val asStrings = shops.map { p -> "${p.id}. ${p.name}" }
+            val asStrings = shops.map { p -> "${p.id}. ${p.name}" }
 
-                val adapter: ListAdapter = ArrayAdapter(
-                        this, android.R.layout.simple_list_item_1, asStrings.toTypedArray()
+            val adapter: ListAdapter = ArrayAdapter(
+                    this, android.R.layout.simple_list_item_1, asStrings.toTypedArray()
                 )
                 shopList.adapter = adapter
             shopList.onItemClickListener = AdapterView.OnItemClickListener{_, _, pos, _ -> onListItemClick(pos)}})
@@ -47,7 +47,6 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun onListItemClick(pos: Int) {
-        Log.d("abc", "clicked")
         val intent = Intent(this, DetailActivity::class.java)
         startActivity(intent)
     }
