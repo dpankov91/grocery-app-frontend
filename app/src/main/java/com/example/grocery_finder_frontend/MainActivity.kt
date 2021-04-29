@@ -28,7 +28,7 @@ class MainActivity : AppCompatActivity() {
 
             val shops = response as List<Shop>
 
-                val asStrings = shops.map { p -> "${p.id}, ${p.name}" }
+                val asStrings = shops.map { p -> "${p.id}. ${p.name}" }
 
                 val adapter: ListAdapter = ArrayAdapter(
                         this, android.R.layout.simple_list_item_1, asStrings.toTypedArray()
