@@ -10,6 +10,7 @@ import android.widget.AdapterView
 import android.widget.ArrayAdapter
 import android.widget.ListAdapter
 import android.widget.Toast
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProvider
 import com.example.grocery_finder_frontend.model.Shop
@@ -17,8 +18,9 @@ import com.example.grocery_finder_frontend.repository.Repository
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
+    
     var shopid = 0
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -62,6 +64,7 @@ class MainActivity : AppCompatActivity() {
         when (id){
             R.id.map -> {
                 val intent = Intent(this, MapsActivity::class.java)
+                setResult(5)
                 startActivity(intent)}
         }
         return super.onOptionsItemSelected(item)
