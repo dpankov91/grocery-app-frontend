@@ -19,8 +19,7 @@ import com.example.grocery_finder_frontend.repository.Repository
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
-
-    var repository = Repository()
+    
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -40,7 +39,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun getAllShopsFromApi(x: Observer<List<Shop>>){
-        //val repository = Repository()
+        val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         var viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
         viewModel.getAllShops()
