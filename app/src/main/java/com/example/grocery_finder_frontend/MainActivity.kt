@@ -9,24 +9,43 @@ import android.view.Menu
 import android.view.MenuItem
 import android.widget.AdapterView
 import android.widget.ArrayAdapter
+import android.widget.ListAdapter
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.grocery_finder_frontend.model.Shop
+import com.example.grocery_finder_frontend.repository.Repository
 import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        val shops = arrayOf("Bilka", "Fakta", "Rema 1000", "Lidl", "Netto")
 
-        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(
-                this, android.R.layout.simple_list_item_1, shops
-        )
-        shopList.adapter = arrayAdapter
-        shopList.onItemClickListener = AdapterView.OnItemClickListener{_, _, pos, _ -> onListItemClick(pos)}
+        getAllShopsFromApi(Observer{ response ->
+            Log.d("RSP", "list state:" + " " + response.toString())
+            val shops = response as List<Shop>
+
+            val asStrings = shops.map { p -> "${p.id}. ${p.name} : ${p.address}" }
+
+            val adapter: ListAdapter = ArrayAdapter(
+                    this, android.R.layout.simple_list_item_1, asStrings.toTypedArray()
+                )
+                shopList.adapter = adapter
+            shopList.onItemClickListener = AdapterView.OnItemClickListener{_, _, pos, _ -> onListItemClick(pos)}})
+
+    }
+
+    private fun getAllShopsFromApi(x: Observer<List<Shop>>){
+        val repository = Repository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        var viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel.getAllShops()
+        viewModel.allShopsResponse.observe(this, x)
     }
 
     private fun onListItemClick(pos: Int) {
-        Log.d("abc", "clicked")
         val intent = Intent(this, DetailActivity::class.java)
         startActivity(intent)
     }

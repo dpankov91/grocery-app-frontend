@@ -16,6 +16,11 @@ import android.view.MenuItem
 import android.view.View
 import android.widget.TextView
 import android.widget.Toast
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModel
+import androidx.lifecycle.ViewModelProvider
+import com.example.grocery_finder_frontend.model.Shop
+import com.example.grocery_finder_frontend.repository.Repository
 import kotlinx.android.synthetic.main.activity_detail.*
 
 class DetailActivity : AppCompatActivity() {
@@ -24,9 +29,30 @@ class DetailActivity : AppCompatActivity() {
     private var lat = 0.0
     private var long = 0.0
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+
+        getSelectedShopFromApi(Observer { response ->
+            Log.d("RSP", "shop:" + " " + response.toString())
+            val shop = response as Shop
+            tvName.text = shop.name
+            tvAddress.text = shop.address
+            tvWebsite.text = shop.webUrl
+            if(shop.name == "Netto"){
+                //imgShopLogo.setImageURI()
+            }
+        })
+    }
+
+    private fun getSelectedShopFromApi(x: Observer<Shop>){
+        val repository = Repository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        var viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel.getShopById()
+        viewModel.shopByIdResponse.observe(this, x)
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean{
