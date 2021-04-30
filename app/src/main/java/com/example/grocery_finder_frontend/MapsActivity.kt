@@ -4,18 +4,19 @@ import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.content.pm.PackageManager
-import android.graphics.Bitmap
-import android.graphics.drawable.BitmapDrawable
 import android.location.Location
 import android.location.LocationListener
 import android.location.LocationManager
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.ActivityCompat
-
+import androidx.lifecycle.Observer
+import androidx.lifecycle.ViewModelProvider
+import com.example.grocery_finder_frontend.model.Shop
+import com.example.grocery_finder_frontend.repository.Repository
 import com.google.android.gms.maps.CameraUpdateFactory
 import com.google.android.gms.maps.GoogleMap
 import com.google.android.gms.maps.OnMapReadyCallback
@@ -27,6 +28,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var marker: Marker
     var mylocation = LatLng(0.0, 0.0);
+    var alreadyExecuted = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_maps)
@@ -36,7 +38,29 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
         requestPermissions()
         startListening()
+        if(intent.extras == null) {
+            getAllShopsFromApi(Observer { response ->
+                Log.d("TAG", "it works, list state:" + " " + response.toString())
+                val shops = response as List<Shop>
+                for (shop in shops) {
+                    mMap.addMarker(MarkerOptions().position(LatLng(shop.latitude, shop.longitude)))
+                }
+            })
+        }
     }
+    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        //if 12345 is the int value you used to start bluetooth activity then
+            if (resultCode == 5) {
+                getAllShopsFromApi(Observer { response ->
+                    Log.d("RSP", "list state:" + " " + response.toString())
+                    val shops = response as List<Shop>
+                    for (shop in shops) {
+                        mMap.addMarker(MarkerOptions().position(LatLng(shop.latitude, shop.longitude)))
+                    }
+                })
+            }
+    }*/
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         marker = mMap.addMarker(MarkerOptions().position(mylocation).title("Me").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)))
@@ -78,7 +102,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
                     mylocation = LatLng(location.latitude, location.longitude)
                     Log.d("TAG", "" + mylocation)
                     marker.position = mylocation
-                    mMap.moveCamera(CameraUpdateFactory.newLatLng(mylocation))
+                    if (alreadyExecuted == false)
+                    {
+                        moveCamera()
+                    }
                     mMap.setMinZoomPreference(12F)
                 }
 
@@ -86,7 +113,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
                 }
             }
-
         val locationManager = getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
             // TODO: Consider calling
@@ -115,7 +141,7 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
 
     override fun onStop() {
         stopListening()
-        Log.d("TAG","Stop listening")
+        Log.d("TAG", "Stop listening")
         super.onStop()
     }
 
@@ -129,5 +155,16 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         startActivity(intent)
     }
 
-
+    private fun getAllShopsFromApi(x: Observer<List<Shop>>){
+        val repository = Repository()
+        val viewModelFactory = MainViewModelFactory(repository)
+        var viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
+        viewModel.getAllShops()
+        viewModel.allShopsResponse.observe(this, x)
+    }
+    private fun moveCamera()
+    {
+        mMap.moveCamera(CameraUpdateFactory.newLatLng(mylocation))
+        alreadyExecuted = true
+    }
 }
