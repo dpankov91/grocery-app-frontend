@@ -1,6 +1,5 @@
 package com.example.grocery_finder_frontend.api
 
-import com.example.grocery_finder_frontend.utils.Constants.Companion.BASE_URL_BOOK
 import com.example.grocery_finder_frontend.utils.Constants.Companion.BASE_URL_GROCERY
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory

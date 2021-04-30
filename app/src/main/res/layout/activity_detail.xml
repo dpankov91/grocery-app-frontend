@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".DetailActivity"
-    android:background="@color/yellow">
+    android:background="@color/white">
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -20,8 +20,7 @@
         android:id="@+id/imgShopLogo"
         android:layout_width="match_parent"
         android:layout_margin="30dp"
-        android:layout_height="wrap_content"
-        android:src="@drawable/netto_logo"
+        android:layout_height="200dp"
         android:layout_centerHorizontal="true"
         />
     <GridLayout
@@ -43,10 +42,9 @@
             android:textColor="@color/black"/>
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:text="Netto"
             android:textSize="20dp"
             android:textColor="@color/black"
             android:gravity="right"/>
@@ -63,7 +61,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="3dp"
-            android:text="Gronningen st. 24"
             android:textSize="20dp"
             android:textColor="@color/black"
             android:gravity="right"/>
@@ -81,7 +78,6 @@
             android:layout_height="wrap_content"
             android:gravity="right"
             android:layout_margin="3dp"
-            android:text="http://www.netto.dk"
             android:textSize="20dp"
             android:textColorLink="@color/purple_700"
             android:textColorHighlight="@color/black"

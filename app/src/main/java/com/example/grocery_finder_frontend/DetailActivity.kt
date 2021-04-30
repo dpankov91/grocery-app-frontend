@@ -7,33 +7,36 @@ import android.content.pm.PackageManager
 import android.location.LocationManager
 import android.net.Uri
 import android.os.Build
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.text.method.LinkMovementMethod
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
-import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
 import com.example.grocery_finder_frontend.model.Shop
 import com.example.grocery_finder_frontend.repository.Repository
 import kotlinx.android.synthetic.main.activity_detail.*
+
 
 class DetailActivity : AppCompatActivity() {
 
     private val LOG = "abc"
     private var lat = 0.0
     private var long = 0.0
-
+    private var shopId = 0
+    private var website = "none"
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_detail)
+        if (intent.extras != null) {
+
+            shopId = intent.extras!!.get("shopid") as Int
+            Log.d("id", "id in extra: " + shopId.toString())}
 
         getSelectedShopFromApi(Observer { response ->
             Log.d("RSP", "shop:" + " " + response.toString())
@@ -41,8 +44,17 @@ class DetailActivity : AppCompatActivity() {
             tvName.text = shop.name
             tvAddress.text = shop.address
             tvWebsite.text = shop.webUrl
-            if(shop.name == "Netto"){
-                //imgShopLogo.setImageURI()
+            website = shop.webUrl
+            when (shop.name) {
+                "Netto" -> imgShopLogo.setImageResource(R.drawable.netto_logo)
+                "Lidl" -> imgShopLogo.setImageResource(R.drawable.lidl_logo)
+                "Aldi" -> imgShopLogo.setImageResource(R.drawable.aldi_logo)
+                "Fakta" -> imgShopLogo.setImageResource(R.drawable.fakta_logo)
+                "Bilka" -> imgShopLogo.setImageResource(R.drawable.bilka_logo)
+                "Rema1000" -> imgShopLogo.setImageResource(R.drawable.rema1000_logo)
+                "Føtex" -> imgShopLogo.setImageResource(R.drawable.fortex_logo)
+                "Meny" -> imgShopLogo.setImageResource(R.drawable.meny_logo)
+                "MiniBazar" -> imgShopLogo.setImageResource(R.drawable.minibazar_logo)
             }
         })
     }
@@ -51,7 +63,8 @@ class DetailActivity : AppCompatActivity() {
         val repository = Repository()
         val viewModelFactory = MainViewModelFactory(repository)
         var viewModel = ViewModelProvider(this, viewModelFactory).get(MainViewModel::class.java)
-        viewModel.getShopById()
+        Log.d("id", "id = " + shopId.toString())
+        viewModel.getShopById(shopId)
         viewModel.shopByIdResponse.observe(this, x)
     }
 
@@ -65,7 +78,8 @@ class DetailActivity : AppCompatActivity() {
         when (id){
             R.id.map -> {
                 val intent = Intent(this, MapsActivity::class.java)
-                startActivity(intent)}
+                startActivity(intent)
+            }
         }
         return super.onOptionsItemSelected(item)
     }
@@ -77,16 +91,14 @@ class DetailActivity : AppCompatActivity() {
     // fun onClickGoToMap(view: View) {}
 
     fun onClickOpenWebsite(view: View) {
-        val url = "http://www.netto.dk"
-        Log.d(LOG, url)
         val browserIntent = Intent(Intent.ACTION_VIEW)
-        browserIntent.data = Uri.parse(url)
+        browserIntent.data = Uri.parse(website)
         startActivity(browserIntent)
     }
 
     private val permissions = arrayOf(
-        android.Manifest.permission.ACCESS_FINE_LOCATION,
-        android.Manifest.permission.ACCESS_COARSE_LOCATION
+            android.Manifest.permission.ACCESS_FINE_LOCATION,
+            android.Manifest.permission.ACCESS_COARSE_LOCATION
     )
     @SuppressLint("MissingPermission")
     fun onClickGoToMap(view: View) {
@@ -103,7 +115,7 @@ class DetailActivity : AppCompatActivity() {
             long = location.longitude
             Log.d(LOG, lat.toString() + " " + long.toString())
             val intent = Intent(this, MapsActivity::class.java)
-            intent.putExtra("lat",lat)
+            intent.putExtra("lat", lat)
             intent.putExtra("long", long)
             startActivity(intent)
         } else{
@@ -113,7 +125,7 @@ class DetailActivity : AppCompatActivity() {
 
     private fun isPermissionGiven(): Boolean{
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
-            return permissions.all {f -> checkSelfPermission(f) == PackageManager.PERMISSION_GRANTED}
+            return permissions.all { f -> checkSelfPermission(f) == PackageManager.PERMISSION_GRANTED}
         }
         return true
     }

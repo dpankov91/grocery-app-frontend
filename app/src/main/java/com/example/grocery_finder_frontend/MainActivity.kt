@@ -1,6 +1,5 @@
 package com.example.grocery_finder_frontend
 
-
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -19,6 +18,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
+    var shopid = 0
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
@@ -28,13 +28,11 @@ class MainActivity : AppCompatActivity() {
             val shops = response as List<Shop>
 
             val asStrings = shops.map { p -> "${p.id}. ${p.name} : ${p.address}" }
-
             val adapter: ListAdapter = ArrayAdapter(
                     this, android.R.layout.simple_list_item_1, asStrings.toTypedArray()
                 )
                 shopList.adapter = adapter
             shopList.onItemClickListener = AdapterView.OnItemClickListener{_, _, pos, _ -> onListItemClick(pos)}})
-
     }
 
     private fun getAllShopsFromApi(x: Observer<List<Shop>>){
@@ -47,6 +45,9 @@ class MainActivity : AppCompatActivity() {
 
     private fun onListItemClick(pos: Int) {
         val intent = Intent(this, DetailActivity::class.java)
+        val id = pos+1
+        intent.putExtra("shopid", id)
+        Log.d("pos", id.toString())
         startActivity(intent)
     }
 

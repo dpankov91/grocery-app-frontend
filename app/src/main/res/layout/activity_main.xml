@@ -11,8 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:divider="@color/black"
-        android:dividerHeight="3dp"
-        android:background="@color/yellow"
+        android:dividerHeight="2dp"
+        android:background="@color/white"
         />
 
 </RelativeLayout>

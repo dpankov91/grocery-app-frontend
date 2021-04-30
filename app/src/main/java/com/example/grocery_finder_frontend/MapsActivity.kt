@@ -37,11 +37,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         requestPermissions()
         startListening()
     }
+
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         marker = mMap.addMarker(MarkerOptions().position(mylocation).title("Me").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)))
-
     }
+
     private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,
             Manifest.permission.ACCESS_COARSE_LOCATION)
 
