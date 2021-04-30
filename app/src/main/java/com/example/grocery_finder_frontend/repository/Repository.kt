@@ -19,6 +19,4 @@ class Repository {
     suspend fun getBooks(): List<Book> {
         return  RetrofitInstance.api.getBook()
     }
-
-
 }

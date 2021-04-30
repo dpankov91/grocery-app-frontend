@@ -22,10 +22,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
-        Log.d("RSP", "run the main activity")
 
         getAllShopsFromApi(Observer{ response ->
-            Log.d("RSP", "list state" + " " + response.toString())
+            Log.d("RSP", "list state:" + " " + response.toString())
             val shops = response as List<Shop>
 
             val asStrings = shops.map { p -> "${p.id}. ${p.name} : ${p.address}" }
