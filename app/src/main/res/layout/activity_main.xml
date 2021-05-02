@@ -10,10 +10,9 @@
         android:id="@+id/shopList"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:divider="@color/white"
+        android:divider="@color/cardview_dark_background"
         android:dividerHeight="2dp"
-        android:background="@color/black"
-        android:textColor="@color/white"
+        android:background="@color/white"
         />
 
 </RelativeLayout>
