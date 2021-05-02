@@ -28,6 +28,9 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     private lateinit var mMap: GoogleMap
     private lateinit var marker: Marker
     var mylocation = LatLng(0.0, 0.0);
+    var lat = 0.0
+    var long = 0.0
+    var ismapready = false
     var alreadyExecuted = false
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -38,6 +41,12 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
         mapFragment.getMapAsync(this)
         requestPermissions()
         startListening()
+        if(intent.extras != null)
+        {
+            val extras: Bundle = intent.extras!!
+             lat = extras.get("lat") as Double
+             long = extras.get("long") as Double
+        }
         if(intent.extras == null) {
             getAllShopsFromApi(Observer { response ->
                 Log.d("TAG", "it works, list state:" + " " + response.toString())
@@ -66,6 +75,10 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
         marker = mMap.addMarker(MarkerOptions().position(mylocation).title("Me").icon(BitmapDescriptorFactory.fromResource(R.drawable.pin)))
+         if(intent.extras != null) {
+             mMap.addMarker(MarkerOptions().position(LatLng(lat, long)))
+         }
+        ismapready = true
     }
 
     private val permissions = arrayOf(Manifest.permission.ACCESS_FINE_LOCATION,

@@ -45,6 +45,8 @@ class DetailActivity : AppCompatActivity() {
             tvAddress.text = shop.address
             tvWebsite.text = shop.webUrl
             website = shop.webUrl
+            lat = shop.latitude
+            long = shop.longitude
             when (shop.name) {
                 "Netto" -> imgShopLogo.setImageResource(R.drawable.netto_logo)
                 "Lidl" -> imgShopLogo.setImageResource(R.drawable.lidl_logo)
@@ -100,9 +102,8 @@ class DetailActivity : AppCompatActivity() {
             android.Manifest.permission.ACCESS_FINE_LOCATION,
             android.Manifest.permission.ACCESS_COARSE_LOCATION
     )
-    @SuppressLint("MissingPermission")
     fun onClickGoToMap(view: View) {
-        requestPermissions()
+        /*requestPermissions()
         if(!isPermissionGiven()){
             Toast.makeText(this, "Permission to use GPS is denied", Toast.LENGTH_LONG).show()
             return
@@ -120,7 +121,11 @@ class DetailActivity : AppCompatActivity() {
             startActivity(intent)
         } else{
             Toast.makeText(this, "The Location is unfortunately null", Toast.LENGTH_LONG).show()
-        }
+        }*/
+        val intent = Intent(this, MapsActivity::class.java)
+        intent.putExtra("lat",lat)
+        intent.putExtra("long",long)
+        startActivity(intent)
     }
 
     private fun isPermissionGiven(): Boolean{

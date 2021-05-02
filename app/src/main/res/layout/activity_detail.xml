@@ -92,22 +92,22 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="100dp">
-        <Button
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnMap"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentLeft="true"
             android:layout_marginLeft="80dp"
-            android:text="Map"
-            android:onClick="onClickGoToMap"/>
-        <Button
+            android:src="@drawable/ic_leftarrow"
+            android:onClick="onClickGoBack"/>
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/btnBack"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_alignParentRight="true"
             android:layout_marginRight="80dp"
-            android:text="Back"
-            android:onClick="onClickGoBack"/>
+            android:src="@drawable/ic_map"
+            android:onClick="onClickGoToMap"/>
     </RelativeLayout>
 
 </LinearLayout>
