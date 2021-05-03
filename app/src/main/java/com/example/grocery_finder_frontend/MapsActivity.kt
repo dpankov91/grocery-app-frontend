@@ -57,20 +57,6 @@ class MapsActivity : AppCompatActivity(), OnMapReadyCallback {
             })
         }
     }
-
-    /*override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
-        super.onActivityResult(requestCode, resultCode, data)
-        //if 12345 is the int value you used to start bluetooth activity then
-            if (resultCode == 5) {
-                getAllShopsFromApi(Observer { response ->
-                    Log.d("RSP", "list state:" + " " + response.toString())
-                    val shops = response as List<Shop>
-                    for (shop in shops) {
-                        mMap.addMarker(MarkerOptions().position(LatLng(shop.latitude, shop.longitude)))
-                    }
-                })
-            }
-    }*/
     
     override fun onMapReady(googleMap: GoogleMap) {
         mMap = googleMap
