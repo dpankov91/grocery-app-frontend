@@ -5,7 +5,9 @@ import retrofit2.http.GET
 import retrofit2.http.Path
 
 interface Api {
-    
+    //This interface contains methods that represents possible API calls.
+    // Each method needs a base URl end point that represents the HTTP methods.
+    //Values are akin to endpoints to url
     @GET("store")
     suspend fun getAllShops(): List<Shop>
 
